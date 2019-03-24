@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <a href="/">index</a> | 
+      <router-link to="/">page1Index</router-link> |
+      <router-link to="/pageabout">pageabout</router-link> | 
+      <a href="/page2.html">page2</a> 
     </div>
     <router-view/>
   </div>
@@ -10,7 +12,7 @@
 
 <style lang="less">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
