@@ -28,6 +28,11 @@
       <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
+      <div class="food">
+        <div>111</div>
+        <div>222</div>
+        <div>333</div>
+      </div>
     </ul>
   </div>
 </template>
@@ -57,4 +62,10 @@ li {
 a {
   color: #42b983;
 }
+  .food{
+    display: flex;
+    div{
+      flex: 1;
+    }
+  }
 </style>
