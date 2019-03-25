@@ -84,15 +84,5 @@ module.exports = {
                 filename: "js/[name].[contenthash:8].js"
             };
         }
-    },
-    // 自动补全浏览器前缀
-    vue: {
-        loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
-        postcss: [
-            require('autoprefixer')({
-                // browsers: ['last 2 versions']
-                browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie > 8']
-            })
-        ]
     }
 }
