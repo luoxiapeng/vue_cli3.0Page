@@ -58,6 +58,8 @@ module.exports = {
         before: app => {}
     },
     chainWebpack: config => {
+        // 修复HMR
+        config.resolve.symlinks(true);
         config.module
             .rule('images')
             .use('url-loader')
