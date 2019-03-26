@@ -1,11 +1,18 @@
 let path = require('path')
 let glob = require('glob')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV);
+// const CompressionWebpackPlugin = require('compression-webpack-plugin');
+// const productionGzipExtensions = ['js', 'css']
+const resolve = dir => path.resolve(__dirname, dir)
+
 //配置pages多页面获取当前文件夹下的html和js
 function getEntry(globPath) {
     let entries = {},
         basename, tmp, pathname, appname;
 
-    glob.sync(globPath).forEach(function(entry) {
+    glob.sync(globPath).forEach(function (entry) {
         basename = path.basename(entry, path.extname(entry));
         // console.log(entry)
         tmp = entry.split('/').splice(-3);
@@ -16,7 +23,7 @@ function getEntry(globPath) {
         entries[pathname] = {
             entry: 'src/' + tmp[0] + '/' + tmp[1] + '/' + tmp[1] + '.js',
             template: 'src/' + tmp[0] + '/' + tmp[1] + '/' + tmp[2],
-            title:  tmp[2],
+            title: tmp[2],
             filename: tmp[2]
         };
     });
@@ -29,7 +36,7 @@ console.log(pages)
 
 module.exports = {
     lintOnSave: false, //禁用eslint
-    baseUrl:process.env.NODE_ENV === "production"?'https://www.mycdn.com/':'/',
+    baseUrl: process.env.NODE_ENV === "production" ? 'https://www.mycdn.com/' : '/',
     productionSourceMap: false,
     pages,
     devServer: {
@@ -55,11 +62,24 @@ module.exports = {
                 }
             }
         }, // 设置代理
-        before: app => {}
+        before: app => {
+        }
     },
     chainWebpack: config => {
         // 修复HMR
         config.resolve.symlinks(true);
+
+        // //修复 Lazy loading routes Error
+        // config.plugin('html').tap(args => {
+        //     args[0].chunksSortMode = 'none';
+        //     return args;
+        // });
+        // 添加别名
+        config.resolve.alias
+            .set('@', resolve('src'))
+            .set('assets', resolve('src/assets'))
+            .set('components', resolve('src/components'))
+            .set('static', resolve('src/static'));
         config.module
             .rule('images')
             .use('url-loader')
@@ -72,7 +92,7 @@ module.exports = {
         Object.keys(pages).forEach(entryName => {
             config.plugins.delete(`prefetch-${entryName}`);
         });
-        if(process.env.NODE_ENV === "production") {
+        if (process.env.NODE_ENV === "production") {
             config.plugin("extract-css").tap(() => [{
                 path: path.join(__dirname, "./dist"),
                 filename: "css/[name].[contenthash:8].css"
@@ -80,7 +100,7 @@ module.exports = {
         }
     },
     configureWebpack: config => {
-        if(process.env.NODE_ENV === "production") {
+        if (process.env.NODE_ENV === "production") {
             config.output = {
                 path: path.join(__dirname, "./dist"),
                 filename: "js/[name].[contenthash:8].js"
