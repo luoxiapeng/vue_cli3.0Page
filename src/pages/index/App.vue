@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <a href="/">index111111</a> |
-      <router-link to="/">page1Index</router-link> |
-      <router-link to="/pageabout">pageabout</router-link> | 
+      <router-link to="/">home</router-link> |
+      <router-link to="/about">about</router-link> |
+      <a href="/page1.html">page1</a> | 
       <a href="/page2.html">page2</a> 
     </div>
     <router-view/>

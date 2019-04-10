@@ -4,7 +4,7 @@
  * time:  2018-9-30 13:57:58
  * github: https://github.com/bonjour520
  * description: 对axios进行了简单的封装。针对不同请求格式进行了相应的转换。暂时还没有添加过滤器，考虑后面逐渐完善，目的是让大家减少代码书写和不同不服务之间的灵活转变。这里我们将main.js中使用挂载到Vue.prototype原型链下面使用。
- * page1.js
+ * main.js
  * ----------------------
  * import api from './api/index.js'
  * Vue.prototype.$http = api;
