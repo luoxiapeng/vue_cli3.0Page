@@ -113,6 +113,7 @@ function getEntry(globPath) {
 
 let pages = getEntry('./src/pages/**?/*.html');
 //配置end
+// const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV);
 module.exports = {
   lintOnSave: false, //禁用eslint
 	productionSourceMap: false,
@@ -124,7 +125,12 @@ module.exports = {
 		port: 8080,
 		https: false,
 		hotOnly: false,
-		proxy: null, // 设置代理
+		proxy: {
+			'/api': {
+				target:'http://127.0.0.1:8080',
+				changeOrigin: true
+			}
+		},// 设置代理
 		before: app => {}
   },
   // css相关配置
@@ -142,6 +148,8 @@ module.exports = {
   parallel: require('os').cpus().length > 1,
   
 	chainWebpack: config => {
+		// 修复HMR
+		config.resolve.symlinks(true);
 		config.module
 			.rule('images')
 			.use('url-loader')
