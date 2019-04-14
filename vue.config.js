@@ -89,6 +89,11 @@
  */
 let path = require('path')
 let glob = require('glob')
+
+// 添加别名
+const resolve = (dir) => path.join(__dirname, dir);
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV);
+
 //配置pages多页面获取当前文件夹下的html和js
 function getEntry(globPath) {
 	let entries = {},
@@ -146,7 +151,7 @@ module.exports = {
   },
   // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建。
   parallel: require('os').cpus().length > 1,
-  
+
 	chainWebpack: config => {
 		// 修复HMR
 		config.resolve.symlinks(true);
@@ -168,13 +173,21 @@ module.exports = {
 				filename: "css/[name].[contenthash:8].css"
 			}]);
 		}
+		// 添加别名
+		config.resolve.alias
+			.set('@', resolve('src'))
+			.set('assets', resolve('src/assets'))
+			.set('components', resolve('src/components'))
+			.set('layout', resolve('src/layout'))
+			.set('base', resolve('src/base'))
+			.set('static', resolve('src/static'));
 	},
 	configureWebpack: config => {
 		if(process.env.NODE_ENV === "production") {
 			config.output = {
         path: path.join(__dirname, "./dist"),
-        publicPath: "/",        
-				filename: "js/[name].[contenthash:8].js"			
+        publicPath: "/",
+				filename: "js/[name].[contenthash:8].js"
 			};
 		}
 	}
